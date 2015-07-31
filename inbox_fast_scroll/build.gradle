@@ -26,7 +26,7 @@ dependencies {
 
 apply plugin: 'maven'
 
-group = 'co.inbox.inbox_fast_scroll'
+group = 'co.inbox.android-fast-scroll'
 version = '1.0.0'
 uploadArchives {
     repositories {
