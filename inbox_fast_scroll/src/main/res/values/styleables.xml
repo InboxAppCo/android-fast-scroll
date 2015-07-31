@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="InboxFastScrollView">
+        <attr name="ifsBubbleRadius" format="dimension"/>
+        <attr name="ifsBubbleSize" format="dimension"/>
+        <attr name="ifsBubbleColor" format="reference|color"/>
+        <attr name="ifsTextColor" format="reference|color"/>
+        <attr name="ifsTextSize" format="dimension"/>
+        <attr name="ifsHandleDrawable" format="reference"/>
+    </declare-styleable>
+
+    <style name="defaultInboxFastScroller">
+        <item name="ifsBubbleRadius">44dp</item>
+        <item name="ifsBubbleSize">88dp</item>
+        <item name="ifsBubbleColor">#E91E63</item>
+        <item name="ifsTextSize">20sp</item>
+        <item name="ifsHandleDrawable">@drawable/ifs_default_handle</item>
+    </style>
+</resources>
