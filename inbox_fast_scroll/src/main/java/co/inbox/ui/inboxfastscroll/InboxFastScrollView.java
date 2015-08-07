@@ -13,12 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class InboxFastScrollView
-        extends LinearLayout {
+        extends FrameLayout {
     private static final String TAG                   = "InboxFastScroller";
     private static final long   ANIMATION_TIME_BUBBLE = 100;
     private static final float  BOTTOM_SNAP_THRESHOLD = 10;
@@ -33,7 +33,6 @@ public class InboxFastScrollView
     public InboxFastScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        setOrientation(HORIZONTAL);
         LayoutInflater.from(context).inflate(R.layout.ifs_view, this, true);
         mHandle = (ImageView) findViewById(R.id.ifs_handle);
         mBubble = (TextView) findViewById(R.id.ifs_bubble);
@@ -70,6 +69,8 @@ public class InboxFastScrollView
 
         mBubble.getLayoutParams().width = bubbleSize;
         mBubble.getLayoutParams().height = bubbleSize;
+
+        ((MarginLayoutParams) mBubble.getLayoutParams()).rightMargin = handleDrawable.getIntrinsicWidth();
 
         mHandle.setImageDrawable(handleDrawable);
     }
