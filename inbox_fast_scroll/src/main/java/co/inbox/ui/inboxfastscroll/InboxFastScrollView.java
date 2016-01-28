@@ -11,8 +11,10 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -181,6 +183,8 @@ public class InboxFastScrollView
 
     private class ScrollListener
             extends RecyclerView.OnScrollListener {
+        private int mRVChildCount;
+
         @Override
         public void onScrolled(RecyclerView rv, int dx, int dy) {
             // This gets triggered on manual scrolls so we filter out the ones with no dy
@@ -188,22 +192,28 @@ public class InboxFastScrollView
                 return;
             }
 
+            if (mRVChildCount == 0) {
+                // Only set this once to avoid the handle jumping around as views are recycled
+                mRVChildCount = rv.getChildCount();
+            }
+
             LinearLayoutManager layoutManager = (LinearLayoutManager) rv.getLayoutManager();
-            int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
-            int visibleRange = rv.getChildCount();
+            int firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
             int lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
             int itemCount = rv.getAdapter().getItemCount();
 
-            int position;
+            float progress;
             if (firstVisiblePosition == 0) {
-                position = 0;
+                progress = 0;
             } else if (lastVisiblePosition == itemCount) {
-                position = itemCount;
+                progress = 1;
             } else {
-                position = (int) (firstVisiblePosition / ((float) itemCount - visibleRange) * itemCount);
+                View view = layoutManager.findViewByPosition(firstVisiblePosition);
+                Log.d(TAG, view.getY() / view.getHeight() + "");
+                float extra = view.getY() / view.getHeight();
+                progress = (firstVisiblePosition - extra) / (itemCount - mRVChildCount);
             }
 
-            float progress = position / (float) itemCount;
             setBubbleAndHandlePosition(getHeight() * progress);
         }
     }
